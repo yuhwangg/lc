@@ -41,8 +41,10 @@ public:
     }
     int dfs(TreeNode* node, int& res) {
         if (!node) return 0;
-        int left = max(dfs(node->left, res), 0);
-        int right = max(dfs(node->right, res), 0);
+        int left = dfs(node->left, res);
+        left = max(left, 0);
+        int right = dfs(node->right, res);
+        right = max(right, 0);
         res = max(res, left + right + node->val);
         return max(left, right) + node->val;
 };
