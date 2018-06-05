@@ -41,73 +41,43 @@ in (queue.size() - 1 - i) position in vector for that line.
 
 For example, for node(9), it's index in queue is 0, so its index in vector should be (3-1-0) = 2.*/
 
-/*
-class Solution {
-public:
-    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-    vector<vector<int>> res;    
-    if (!root) return res;
-
-    queue<TreeNode*> q;
-    q.push(root);
-    bool left2right = true;
-
-    while (!q.empty()) {
-        int size = q.size();
-        vector<int> row(size);
-        for (int i = 0; i < size; i++) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            // find position to fill node's value
-            int index = (left2right) ? i : (size - 1 - i);
-
-            row[index] = node->val;
-            if (node->left) {
-                q.push(node->left);
-            }
-            if (node->right) {
-                q.push(node->right);
-            }
-        }
-        // after this level
-        left2right = !left2right;
-        res.push_back(row);
-    }
-    return res;
-}
-};
-*/
 
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if (!root) return {};
-        vector<vector<int>> res;
-        deque<TreeNode*> q;
-        q.push_front(root);
+        vector<vector<int>> res;    
+        if (!root) return res;
 
-        for (int k = 0; !q.empty(); k++) {
-            res.push_back({});
-            bool left2right = (k % 2 == 0);
-            for (int i = q.size(); i > 0; i--) {
-                TreeNode* node;
-                if (left2right) {
-                    node = q.front();
-                    q.pop_front();
-                    if (node->left) q.push_back(node->left);
-                    if (node->right) q.push_back(node->right);
-                }
-                else {
-                    node = q.back();
-                    q.pop_back();
-                    if (node->right) q.push_front(node->right);
-                    if (node->left) q.push_front(node->left);
-                }
-                res[k].push_back(node->val);
+        queue<TreeNode*> q;
+        q.push(root);
+        bool left2right = true;
+
+        while (!q.empty()) {
+            int n = q.size();
+            vector<int> row(n);
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
+                int index = (left2right) ? i : (n-1-i);
+                row[index] = node->val;
+
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+
             }
+            // after each level
+            left2right = !left2right;
+            res.push_back(row);
         }
         return res;
     }
 };
+
+
+
+
+
+
+
 
