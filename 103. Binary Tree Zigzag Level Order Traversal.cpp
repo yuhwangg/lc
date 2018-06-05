@@ -5,7 +5,6 @@ then right to left for the next level and alternate between).
 
 For example:
 Given binary tree [3,9,20,null,null,15,7],
-
     3
    / \
   9  20
@@ -13,14 +12,12 @@ Given binary tree [3,9,20,null,null,15,7],
    15   7
 
 return its zigzag level order traversal as:
-
 [
   [3],
   [20,9],
   [15,7]
 ]
 */
-
 
 /**
  * Definition for a binary tree node.
@@ -64,7 +61,6 @@ public:
 
                 if (node->left) q.push(node->left);
                 if (node->right) q.push(node->right);
-
             }
             // after each level
             left2right = !left2right;
