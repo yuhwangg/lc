@@ -44,21 +44,21 @@ the traversals than the cloned graph is correct.
 
 class Solution{
 public:
-    UndirectedGraphNode* cloneGraph(UndirectedGraphNode *src){
+    GraphNode* cloneGraph(GraphNode *src){
         if(!src) return NULL;
-        unordered_map<int, UndirectedGraphNode*> m;
+        unordered_map<int, GraphNode*> m;
         return clone(src, m);
     }
-    UndirectedGraphNode* clone(UndirectedGraphNode *src, unordered_map<int,UndirectedGraphNode*> &m){
+    GraphNode* clone(GraphNode *src, unordered_map<int,GraphNode*> &m){
         if(!src) return NULL;
         else if(m.count(src->label)){
             return m[src->label];
         }
         else{
-            UndirectedGraphNode *newNode = new UndirectedGraphNode(src->label);
+            GraphNode *newNode = new GraphNode(src->label);
             m[src->label] = newNode;
             for (int i=0; i<src->neighbors.size(); i++){
-                UndirectedGraphNode *nbrsOfNbr = clone(src->neighbors[i], m);
+                GraphNode *nbrsOfNbr = clone(src->neighbors[i], m);
                 (newNode->neighbors).push_back(nbrsOfNbr);
             }
             return newNode;
@@ -66,85 +66,38 @@ public:
     }
 };
 
-class Solution {
-public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *src) {
-        
-        if(!src) return NULL;
-        
-        //A Map to keep track of all the nodes which have already been created
-        map<UndirectedGraphNode*, UndirectedGraphNode*> m;
-        queue<UndirectedGraphNode*> q;
-     
-        // Enqueue src node
-        q.push(src);
-        UndirectedGraphNode *newNode;
-     
-        // Make a copy Node
-        newNode = new UndirectedGraphNode(src->label);
-     
-        // Put the copy node into the Map
-        m[src] = newNode;
-        while (!q.empty()){
-            //Get the front node from the queue
-            //and then visit all its neighbors
-            UndirectedGraphNode *front = q.front();
-            q.pop();
-            vector<UndirectedGraphNode*> &nbrs = front->neighbors;
-            
-            for (int i = 0; i < nbrs.size(); i++){
-                // Check if this node has already been created
-                if (m[nbrs[i]] == NULL){
-                    // If not then create a new Node and put into the HashMap
-                    newNode = new UndirectedGraphNode(nbrs[i]->label);
-                    m[nbrs[i]] = newNode;
-                    q.push(nbrs[i]);
-                }
-     
-                // add these neighbors to the copied graph node
-                m[front]->neighbors.push_back(m[nbrs[i]]);
-            }
-        }
-     
-        // Return the address of cloned src Node
-        return m[src];
-        
-    }
-};
 
 
-/*   用一个hash table记录原图节点和复制图节点间的对应关系，以防止重复建立节点。
-     和那题的不同在于遍历原图相对比linked list的情况复杂一点。可以用BFS或DFS来遍历原图。
-     而hash table本身除了记录对应关系外，还有记录原图中每个节点是否已经被visit的功能。*/
+/* 用一个hash table记录原图节点和复制图节点间的对应关系，以防止重复建立节点。
+   和那题的不同在于遍历原图相对比linked list的情况复杂一点。可以用BFS或DFS来遍历原图。
+   而hash table本身除了记录对应关系外，还有记录原图中每个节点是否已经被visit的功能。*/
 class Solution {
 public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *src) {
+    GraphNode *cloneGraph(GraphNode *src) {
         if(!src) return NULL;
-        UndirectedGraphNode *p1 = src;
-        UndirectedGraphNode *p2 = new UndirectedGraphNode(src->label);
-        unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> ht;
-        queue<UndirectedGraphNode*> q;        
+        GraphNode *p1 = src;
+        GraphNode *p2 = new GraphNode(src->label);
+        unordered_map<GraphNode*, GraphNode*> m;
+        queue<GraphNode*> q;        
         q.push(src);
-        ht[src] = p2;
+        m[src] = p2;
         
         while(!q.empty()) {
             p1 = q.front();
-            p2 = ht[p1];
+            p2 = m[p1];
             q.pop();
             for(int i=0; i<p1->neighbors.size(); i++) {
-                UndirectedGraphNode *nb = p1->neighbors[i];
-                
-                if(ht.count(nb)) {
-                    p2->neighbors.push_back(ht[nb]);
-                }
+                GraphNode *nb = p1->neighbors[i];       
+                if(m.count(nb)) 
+                    p2->neighbors.push_back(m[nb]);
                 else {
-                    UndirectedGraphNode *temp = new UndirectedGraphNode(nb->label);
+                    GraphNode *temp = new GraphNode(nb->label);
                     p2->neighbors.push_back(temp);
-                    ht[nb] = temp;
+                    m[nb] = temp;
                     q.push(nb);
                 }
             }
         }
-        return ht[src];
+        return m[src];
     }
 };
