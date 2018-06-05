@@ -21,18 +21,20 @@ class Solution {
 public:
     int minimumTotal(vector<vector<int> > &t) {
         int row = t.size();
-        for (int i = 1; i < row; ++i) {
+        for (int i = 1; i < row; i++) {
             int n = t[i].size();
-            for (int j = 0; j < n; ++j) {
-                if (j == 0) t[i][j] += t[i - 1][j];
-                else if (j == t[i].size() - 1) t[i][j] += t[i-1][j-1];
+            for (int j = 0; j < n; j++) {
+                if (j == 0) 
+                     t[i][j] += t[i-1][j];
+                else if (j == n-1) 
+                     t[i][j] += t[i-1][j-1];
                 else {
                     t[i][j] += min(t[i-1][j-1], t[i-1][j]);
                 }
             }
         }
         int res = t[row-1][0];
-        for (int i = 0; i < t[row-1].size(); ++i) {
+        for (int i = 0; i < t[row-1].size(); i++) {
             res = min(res, t[row-1][i]);
         }
         return res;
