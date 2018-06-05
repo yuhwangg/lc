@@ -19,22 +19,26 @@ the triangle.
 
 class Solution {
 public:
-    int minimumTotal(vector<vector<int> > &triangle) {
-        int n = triangle.size();
+    int minimumTotal(vector<vector<int> > &t) {
+        int n = t.size();
         for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < triangle[i].size(); ++j) {
-                if (j == 0) triangle[i][j] += triangle[i - 1][j];
-                else if (j == triangle[i].size() - 1) triangle[i][j] += triangle[i - 1][j - 1];
+            for (int j = 0; j < t[i].size(); ++j) {
+                if (j == 0) t[i][j] += t[i - 1][j];
+                else if (j == t[i].size() - 1) t[i][j] += t[i-1][j-1];
                 else {
-                    triangle[i][j] += min(triangle[i - 1][j - 1], triangle[i - 1][j]);
+                    t[i][j] += min(t[i-1][j-1], t[i-1][j]);
                 }
             }
         }
-        int res = triangle[n - 1][0];
-        for (int i = 0; i < triangle[n - 1].size(); ++i) {
-            res = min(res, triangle[n - 1][i]);
+        int res = t[n-1][0];
+        for (int i = 0; i < t[n-1].size(); ++i) {
+            res = min(res, t[n-1][i]);
         }
         return res;
     }
 };
+
+
+
+
 
