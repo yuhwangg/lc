@@ -29,12 +29,12 @@ class Solution {
 public:
     bool isSymmetric(TreeNode* root){
         if (!root) return true;
-        return isSymmetric(root->left, root->right);
+        return symmetric(root->left, root->right);
     }
-    bool isSymmetric(TreeNode* p, TreeNode* q) {
+    bool symmetric(TreeNode* p, TreeNode* q) {
         if (!p && !q) return true;
         if (p && !q || !p && q ) return false;
-        return p->val == q->val && isSymmetric(p->left, q->right) && isSymmetric(p->right, q->left);
+        return p->val == q->val && symmetric(p->left, q->right) && symmetric(p->right, q->left);
     }    
 };
 
