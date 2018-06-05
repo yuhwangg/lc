@@ -47,6 +47,7 @@ public:
         right = max(right, 0);
         res = max(res, left + right + node->val);
         return max(left, right) + node->val;
+    }
 };
 
 
