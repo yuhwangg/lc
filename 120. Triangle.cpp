@@ -28,9 +28,8 @@ public:
                      t[i][j] += t[i-1][j];
                 else if (j == n-1) 
                      t[i][j] += t[i-1][j-1];
-                else {
+                else 
                     t[i][j] += min(t[i-1][j-1], t[i-1][j]);
-                }
             }
         }
         int res = t[row-1][0];
