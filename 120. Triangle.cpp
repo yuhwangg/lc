@@ -32,9 +32,10 @@ public:
                     t[i][j] += min(t[i-1][j-1], t[i-1][j]);
             }
         }
-        int res = t[row-1][0];
-        for (int i = 0; i < t[row-1].size(); i++) {
-            res = min(res, t[row-1][i]);
+        vector<int> lastRow = t[row-1];
+        int res = lastRow[0];
+        for (int i = 0; i < lastRow.size(); i++) {
+            res = min(res, lastRow[i]);
         }
         return res;
     }
