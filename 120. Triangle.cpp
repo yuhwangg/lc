@@ -20,9 +20,10 @@ the triangle.
 class Solution {
 public:
     int minimumTotal(vector<vector<int> > &t) {
-        int n = t.size();
-        for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < t[i].size(); ++j) {
+        int row = t.size();
+        for (int i = 1; i < row; ++i) {
+            int n = t[i].size();
+            for (int j = 0; j < n; ++j) {
                 if (j == 0) t[i][j] += t[i - 1][j];
                 else if (j == t[i].size() - 1) t[i][j] += t[i-1][j-1];
                 else {
@@ -30,9 +31,9 @@ public:
                 }
             }
         }
-        int res = t[n-1][0];
-        for (int i = 0; i < t[n-1].size(); ++i) {
-            res = min(res, t[n-1][i]);
+        int res = t[row-1][0];
+        for (int i = 0; i < t[row-1].size(); ++i) {
+            res = min(res, t[row-1][i]);
         }
         return res;
     }
